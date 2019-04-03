@@ -1,0 +1,25 @@
+--- 
+- hosts: all
+  tasks:
+    - name: "Create user to server"
+       # use "user" module to create user
+       user:
+        name: swe
+        uid: 1109
+        group: admin
+
+    - name: "Install httpd"
+    # use "yum" module to install service in centos
+       yum: 
+        name: httpd
+        state: latest 
+        #uninstall = absent
+
+    - name: "Start Httpd"
+    #use "service" module 
+      service: 
+        name: httpd
+        state: started
+        enabled: yes
+
+#run in the format "ansible-playbook -i inventory (.yml)"

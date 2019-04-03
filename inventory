@@ -1,0 +1,11 @@
+[webserver]
+web01
+web02
+
+[appserver]
+app01
+app02
+
+[dbserver]
+db01 
+db02
