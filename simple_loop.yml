@@ -1,0 +1,14 @@
+# A simple loop in starting mail services
+---
+- hosts: webserver
+  vars: 
+    mail_services:
+      - postfix
+      - snmp
+
+    - name: "start services"
+      service:
+        name: "{{item}}"
+        state: started
+
+      with_items: "{{mail_services}}"

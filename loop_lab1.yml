@@ -1,0 +1,16 @@
+--- 
+- hosts: all
+  vars:
+    packages: 
+      - mutt
+      - telnet
+      - tcpdump
+
+  tasks:
+    - name: "Install pacakges"
+      yum: 
+        name: "{{items}}"
+        state: latest
+
+      with_items: "{{packages}}"
+

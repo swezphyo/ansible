@@ -1,0 +1,45 @@
+---
+- hosts: web01
+  vars: 
+    db_package:
+     - mariadb-server
+     - MySQL-python
+    db_service: 'mariadb'
+    source: 'http://5.196.93.119/labfiles/my.cnf'
+    destfile: '/etc/my.cnf'
+    password: hello
+
+  tasks:
+    - name: 'install db packages'
+      yum: 
+         name: "{{ item }}"
+         state: latest
+      with_items: "{{ db_package }}"
+      notify: 
+        - start_service
+  
+    - name: 'play with source and dest file'
+      get_url:
+         url: "{{ source }}"
+         dest: "{{ destfile }}"
+         group: mysql
+         owner: mysql
+      notify: 
+        - restart_service
+        - dbuser_password
+
+  handlers:
+   - name: start_service
+     service: 
+      name: "{{ db_service }}"
+      state: started
+
+   - name: restart_service
+     service: 
+       name: "{{ db_service }}"
+       state: restarted
+   
+   - name: dbuser_password
+     user: 
+      name: mysql
+      password: '{{ password | password_hash("sha512") }}'

@@ -1,0 +1,21 @@
+---
+- hosts: appserver
+  tasks:
+    - template:
+        src: /root/hosts/lab04.j2
+        dest: /root/
+
+    - yum:
+        name: "tomcat"
+        state: latest
+      when: inventory_hostname == 'app02'
+
+    - yum:
+        name: "nginx"
+        state: latest
+      when: inventory_hostname == 'app02'
+
+    - yum:
+        name: "jetty"
+        state: latest
+      when: inventory_hostname == 'app01'
